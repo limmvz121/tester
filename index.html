@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Morez Store & Mod Center</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen transition-colors duration-300">
+
+    <!-- Container Utama App Mobile View -->
+    <div class="max-w-md mx-auto bg-slate-50 dark:bg-slate-900 min-h-screen relative shadow-2xl pb-24 overflow-hidden transition-colors duration-300">
+        
+        <!-- HEADER APP (GLOBAL HEADER) -->
+        <div class="relative bg-gradient-to-br from-blue-600 via-indigo-600 to-blue-800 text-white pt-6 pb-12 px-5 rounded-b-[2.5rem] shadow-lg">
+            <div class="flex justify-between items-center mb-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center font-bold text-xl border border-white/30 shadow-inner">
+                        M
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-extrabold tracking-wide">MOREZ STORE</h1>
+                        <p id="headerSubtitle" class="text-xs text-blue-100 opacity-90">Katalog Produk & Aplikasi Premium</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <button onclick="toggleDarkMode()" class="w-9 h-9 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center hover:bg-white/30 transition text-sm">
+                        <i id="darkIcon" class="fas fa-sun"></i>
+                    </button>
+                    <a href="https://wa.me/6281234567890" target="_blank" class="w-9 h-9 rounded-full bg-emerald-500 flex items-center justify-center shadow-md hover:bg-emerald-600 transition text-sm">
+                        <i class="fab fa-whatsapp text-white"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Banner Info -->
+            <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 flex items-center justify-between shadow-lg">
+                <div>
+                    <span id="bannerBadge" class="bg-emerald-400 text-slate-900 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Official Store</span>
+                    <h2 id="bannerTitle" class="text-base font-bold mt-1">Produk Digital & Nokos</h2>
+                    <p id="bannerDesc" class="text-xs text-blue-100">Proses Cepat • Garansi Full • 24/7</p>
+                </div>
+                <div id="bannerIcon" class="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center text-2xl shadow-inner">
+                    ⚡
+                </div>
+            </div>
+        </div>
+
+        <!-- =================================================== -->
+        <!-- TAB 1: HALAMAN STORE (KATALOG JUALAN) -->
+        <!-- =================================================== -->
+        <div id="tabStore" class="tab-content transition-all duration-300">
+            <!-- SEARCH BAR & CATEGORIES STORE -->
+            <div class="px-5 -mt-5 relative z-10">
+                <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-2.5 flex items-center space-x-3 border border-slate-100 dark:border-slate-700">
+                    <i class="fas fa-search text-slate-400 ml-2"></i>
+                    <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="Cari Canva, CapCut, Nokos, Sosmed..." class="w-full bg-transparent text-sm focus:outline-none dark:text-white placeholder-slate-400">
+                </div>
+
+                <!-- Kategori Filter Store -->
+                <div class="flex space-x-2 mt-4 overflow-x-auto hide-scrollbar pb-1">
+                    <button onclick="filterCategory('all')" class="cat-btn active bg-blue-600 text-white text-xs font-semibold px-4 py-2 rounded-xl shadow-sm whitespace-nowrap transition">Semua</button>
+                    <button onclick="filterCategory('app')" class="cat-btn bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-semibold px-4 py-2 rounded-xl shadow-sm whitespace-nowrap border border-slate-100 dark:border-slate-700 transition">Aplikasi Premium</button>
+                    <button onclick="filterCategory('nokos')" class="cat-btn bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-semibold px-4 py-2 rounded-xl shadow-sm whitespace-nowrap border border-slate-100 dark:border-slate-700 transition">Nokos WA & Tele</button>
+                    <button onclick="filterCategory('sosmed')" class="cat-btn bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-semibold px-4 py-2 rounded-xl shadow-sm whitespace-nowrap border border-slate-100 dark:border-slate-700 transition">Suntik Sosmed</button>
+                </div>
+            </div>
+
+            <!-- DAFTAR PRODUK (GRID 2 KOLOM) -->
+            <div class="px-5 mt-5">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-bold text-slate-800 dark:text-slate-100 text-sm">Katalog Produk Jualan</h3>
+                    <span id="productCount" class="text-[11px] text-blue-600 dark:text-blue-400 font-medium">10 Produk</span>
+                </div>
+
+                <div id="productGrid" class="grid grid-cols-2 gap-3.5">
+                    <!-- Produk di-render via Javascript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- =================================================== -->
+        <!-- TAB 2: HALAMAN MOREZ MOD (FULL PAGE MOD CENTER) -->
+        <!-- =================================================== -->
+        <div id="tabMod" class="tab-content hidden transition-all duration-300">
+            <!-- SEARCH BAR & CATEGORIES MOD -->
+            <div class="px-5 -mt-5 relative z-10">
+                <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-2.5 flex items-center space-x-3 border border-slate-100 dark:border-slate-700">
+                    <i class="fas fa-search text-purple-500 ml-2"></i>
+                    <input type="text" id="searchModInput" onkeyup="filterModApps()" placeholder="Cari APK Mod (mis: Alight Motion, CapCut...)" class="w-full bg-transparent text-sm focus:outline-none dark:text-white placeholder-slate-400">
+                </div>
+
+                <!-- Kategori Filter Mod -->
+                <div class="flex space-x-2 mt-4 overflow-x-auto hide-scrollbar pb-1">
+                    <button onclick="filterModCategory('all')" class="mod-cat-btn active bg-purple-600 text-white text-xs font-semibold px-4 py-2 rounded-xl shadow-sm whitespace-nowrap transition">Semua Mod</button>
+                    <button onclick="filterModCategory('editor')" class="mod-cat-btn bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-semibold px-4 py-2 rounded-xl shadow-sm whitespace-nowrap border border-slate-100 dark:border-slate-700 transition">Video Editor</button>
+                    <button onclick="filterModCategory('stream')" class="mod-cat-btn bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-semibold px-4 py-2 rounded-xl shadow-sm whitespace-nowrap border border-slate-100 dark:border-slate-700 transition">Streaming & Music</button>
+                    <button onclick="filterModCategory('game')" class="mod-cat-btn bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-semibold px-4 py-2 rounded-xl shadow-sm whitespace-nowrap border border-slate-100 dark:border-slate-700 transition">Game Mod</button>
+                    <button onclick="filterModCategory('tools')" class="mod-cat-btn bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-semibold px-4 py-2 rounded-xl shadow-sm whitespace-nowrap border border-slate-100 dark:border-slate-700 transition">Tools & Utility</button>
+                </div>
+            </div>
+
+            <!-- DAFTAR APLIKASI MOD (LIST FULL VIEW) -->
+            <div class="px-5 mt-5">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-bold text-slate-800 dark:text-slate-100 text-sm">Pusat Download APK Mod</h3>
+                    <span id="modCount" class="text-[11px] text-purple-600 dark:text-purple-400 font-medium">Ready Files</span>
+                </div>
+
+                <!-- Container Aplikasi Mod -->
+                <div id="modListContainer" class="space-y-3">
+                    <!-- APK Mod di-render via Javascript -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MODAL DETAIL PRODUK STORE -->
+    <div id="productModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-end justify-center hidden transition-opacity duration-300">
+        <div class="bg-white dark:bg-slate-900 w-full max-w-md rounded-t-3xl max-h-[85vh] overflow-y-auto hide-scrollbar p-5 relative shadow-2xl border-t border-slate-200 dark:border-slate-800">
+            <div class="flex justify-between items-center pb-3 border-b border-slate-100 dark:border-slate-800">
+                <div class="flex items-center space-x-3">
+                    <div id="modalIcon" class="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xl font-bold"></div>
+                    <div>
+                        <h3 id="modalTitle" class="font-bold text-base dark:text-white">Nama Produk</h3>
+                        <p id="modalCategory" class="text-xs text-slate-400">Kategori</p>
+                    </div>
+                </div>
+                <button onclick="closeModal()" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="mt-4 space-y-4">
+                <div class="bg-blue-50/70 dark:bg-slate-800/60 p-3.5 rounded-2xl border border-blue-100 dark:border-slate-700">
+                    <h4 class="text-xs font-bold text-blue-800 dark:text-blue-300 uppercase tracking-wider mb-1.5 flex items-center">
+                        <i class="fas fa-info-circle mr-1.5"></i> Deskripsi & Fitur Utama
+                    </h4>
+                    <p id="modalDesc" class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mb-2.5"></p>
+                    <h4 class="text-xs font-bold text-blue-800 dark:text-blue-300 uppercase tracking-wider mb-1.5 flex items-center">
+                        <i class="fas fa-check-circle mr-1.5 text-emerald-500"></i> Keunggulan / Benefit
+                    </h4>
+                    <ul id="modalBenefits" class="text-xs text-slate-600 dark:text-slate-300 space-y-1 pl-1"></ul>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Pilih Varian Paket / Durasi:</label>
+                    <div id="modalVariants" class="space-y-2"></div>
+                </div>
+
+                <div class="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                    <div>
+                        <span class="text-[10px] text-slate-400 block">Total Harga:</span>
+                        <span id="modalSelectedPrice" class="text-lg font-extrabold text-blue-600 dark:text-blue-400">Rp 0</span>
+                    </div>
+                    <button onclick="buyViaWhatsApp()" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs px-5 py-3 rounded-xl shadow-lg shadow-emerald-500/20 flex items-center space-x-2 transition">
+                        <i class="fab fa-whatsapp text-base"></i>
+                        <span>Beli Sekarang</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL MENU PAGES -->
+    <div id="pagesModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-5 hidden">
+        <div class="bg-white dark:bg-slate-900 w-full max-w-sm rounded-3xl p-5 relative shadow-2xl border border-slate-100 dark:border-slate-800">
+            <div class="flex justify-between items-center pb-3 border-b border-slate-100 dark:border-slate-800">
+                <h3 class="font-bold text-base dark:text-white flex items-center">
+                    <i class="fas fa-layer-group text-blue-600 mr-2"></i> Menu Halaman
+                </h3>
+                <button onclick="closePagesModal()" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="mt-4 space-y-3">
+                <button onclick="openPageMenu('preset')" class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white p-3.5 rounded-2xl flex items-center justify-between shadow-md hover:opacity-95 transition">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center text-lg">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <div class="text-left">
+                            <h4 class="font-bold text-sm">Morez Preset AM</h4>
+                            <p class="text-[10px] text-emerald-100">Kumpulan Preset Alight Motion</p>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-right text-xs opacity-70"></i>
+                </button>
+
+                <button onclick="openPageMenu('store')" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-3.5 rounded-2xl flex items-center justify-between shadow-md hover:opacity-95 transition">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center text-lg">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <div class="text-left">
+                            <h4 class="font-bold text-sm">Morez Store</h4>
+                            <p class="text-[10px] text-blue-100">Katalog Produk & Apps Premium</p>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-right text-xs opacity-70"></i>
+                </button>
+
+                <button onclick="openPageMenu('mod')" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white p-3.5 rounded-2xl flex items-center justify-between shadow-md hover:opacity-95 transition">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center text-lg">
+                            <i class="fas fa-download"></i>
+                        </div>
+                        <div class="text-left">
+                            <h4 class="font-bold text-sm">Morez Mod Center</h4>
+                            <p class="text-[10px] text-purple-100">Download APK Mod No Watermark</p>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-right text-xs opacity-70"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- OVERLAY LOADING SPINNER -->
+    <div id="loadingOverlay" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center hidden">
+        <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl flex flex-col items-center space-y-3 shadow-2xl">
+            <div class="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+            <p class="text-xs font-semibold dark:text-white">Memuat Halaman...</p>
+        </div>
+    </div>
+
+    <!-- BOTTOM NAVIGATION BAR -->
+    <div class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-t border-slate-200/80 dark:border-slate-800 px-6 py-2.5 flex justify-between items-center z-40">
+        <button id="navStoreBtn" onclick="switchTab('store')" class="nav-btn flex flex-col items-center text-blue-600 dark:text-blue-400">
+            <i class="fas fa-home text-base"></i>
+            <span class="text-[10px] font-semibold mt-0.5">Store</span>
+        </button>
+        <button id="navModBtn" onclick="switchTab('mod')" class="nav-btn flex flex-col items-center text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition">
+            <i class="fas fa-box-open text-base"></i>
+            <span class="text-[10px] font-semibold mt-0.5">Mod APK</span>
+        </button>
+        <button onclick="showPagesModal()" class="flex flex-col items-center text-slate-400 transition relative -mt-5">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center shadow-lg shadow-blue-500/30 border-4 border-slate-50 dark:border-slate-900">
+                <i class="fas fa-layer-group text-lg"></i>
+            </div>
+            <span class="text-[10px] font-bold mt-0.5 text-blue-600 dark:text-blue-400">Pages</span>
+        </button>
+        <button onclick="focusActiveSearch()" class="flex flex-col items-center text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition">
+            <i class="fas fa-search text-base"></i>
+            <span class="text-[10px] font-semibold mt-0.5">Cari</span>
+        </button>
+        <button onclick="toggleDarkMode()" class="flex flex-col items-center text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition">
+            <i class="fas fa-moon text-base"></i>
+            <span class="text-[10px] font-semibold mt-0.5">Tema</span>
+        </button>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // DATA APLIKASI MOD LENGKAP (BISA DITAMBAHKAN SEBANYAK MUNGKIN)
+        const modApps = [
+            {
+                id: 'am-mod',
+                title: 'Alight Motion Pro Mod',
+                version: 'v5.0.250',
+                size: '115 MB',
+                updated: '05 Okt 2026',
+                category: 'editor',
+                badge: 'HOT',
+                badgeBg: 'bg-red-500',
+                icon: 'fa-video',
+                iconBg: 'from-emerald-500 to-teal-700',
+                desc: 'No Watermark • Support Export Preset XML & Link • Unlock All Effects Pro.',
+                url: 'https://www.mediafire.com/' // GANTI DENGAN LINK UNDUH AM KAMU
+            },
+            {
+                id: 'capcut-mod',
+                title: 'CapCut Pro VIP Mod',
+                version: 'v12.4.0',
+                size: '210 MB',
+                updated: '02 Okt 2026',
+                category: 'editor',
+                badge: 'UPDATED',
+                badgeBg: 'bg-blue-600',
+                icon: 'fa-scissors',
+                iconBg: 'from-blue-600 to-indigo-800',
+                desc: 'Unlock All Pro Features • Export 1080p/4K No Watermark • AI Background Removal.',
+                url: 'https://www.mediafire.com/' // GANTI DENGAN LINK UNDUH CAPCUT KAMU
+            },
+            {
+                id: 'wink-mod',
+                title: 'Wink Video VIP Mod',
+                version: 'v1.8.5',
+                size: '95 MB',
+                updated: '28 Sep 2026',
+                category: 'editor',
+                badge: 'VIP',
+                badgeBg: 'bg-purple-600',
+                icon: 'fa-wand-magic-sparkles',
+                iconBg: 'from-pink-500 to-rose-700',
+                desc: 'Penjernih Video Buram HD/4K • Unlock AI Beautify & Face Reshape Tanpa Watermark.',
+                url: 'https://www.mediafire.com/' // GANTI DENGAN LINK UNDUH WINK KAMU
+            },
+            {
+                id: 'loklok-mod',
+                title: 'Loklok VIP Movie Mod',
+                version: 'v3.1.0',
+                size: '48 MB',
+                updated: '01 Okt 2026',
+                category: 'stream',
+                badge: 'POPULAR',
+                badgeBg: 'bg-amber-500',
+                icon: 'fa-film',
+                iconBg: 'from-amber-500 to-orange-700',
+                desc: 'Nonton Film, Drama Korea, & Anime VIP Sub Indo Tanpa Iklan Resolusi 1080p.',
+                url: 'https://www.mediafire.com/' // GANTI DENGAN LINK UNDUH LOKLOK KAMU
+            },
+            {
+                id: 'spotify-mod',
+                title: 'Spotify Mod Premium',
+                version: 'v8.9.12',
+                size: '65 MB',
+                updated: '20 Sep 2026',
+                category: 'stream',
+                badge: 'NO ADS',
+                badgeBg: 'bg-emerald-600',
+                icon: 'fa-music',
+                iconBg: 'from-green-500 to-emerald-800',
+                desc: 'Bebas Iklan • Unlimited Shuffle • Very High Quality Audio Unlocked.',
+                url: 'https://www.mediafire.com/'
+            },
+            {
+                id: 'zarchiver-mod',
+                title: 'ZArchiver Pro Mod',
+                version: 'v1.0.8',
+                size: '12 MB',
+                updated: '15 Agu 2026',
+                category: 'tools',
+                badge: 'PRO',
+                badgeBg: 'bg-slate-700',
+                icon: 'fa-file-zipper',
+                iconBg: 'from-slate-600 to-slate-800',
+                desc: 'Manajemen Ekstrak File ZIP/RAR • Password Protection • Support Android 15 Storage.',
+                url: 'https://www.mediafire.com/'
+            }
+        ];
+
+        // DATA PRODUK STORE
+        const products = [
+            {
+                id: 'am-prem',
+        name: 'Alight Motion Pro',
+        category: 'app',
+        image: 'https://i.postimg.cc/x8xzX0mB/20261006-195723.jpg', // LINK POSTIMG
+        strikePrice: '15.000',
+        basePrice: '5.000',
+        soldCount: '12.4k',
+        rating: '4.9',
+        desc: 'Akun Alight Motion Pro Full Fitur Premium. Support ekspor preset XML, efek premium tanpa watermark, dan bebas iklan.',
+        benefits: [
+            'Unlock All Premium Effects & Presets',
+            'Bebas Watermark & Bebas Iklan',
+            'Bisa Import & Export XML / Preset Link'
+        ],
+        variants: [
+            { name: 'Sharable 1 Bulan (Garansi 30 Hari)', price: 5000 },
+            { name: 'Private Email Sendiri 1 Tahun', price: 25000 }
+        ]
+            },
+            {
+                id: 'capcut-pro',
+                name: 'CapCut Pro VIP',
+                category: 'app',
+                icon: 'fa-scissors',
+                strikePrice: '25.000',
+                basePrice: '8.000',
+                soldCount: '54.8k',
+                rating: '5.0',
+                desc: 'Akses CapCut Pro PC & Mobile. Membuka semua template VIP, fitur AI video enhancer, cloud storage 100GB.',
+                benefits: [
+                    'Akses Semua Efek, Filter & Transisi VIP',
+                    'Export Video Resolusi 2K / 4K Smooth',
+                    'Support Windows, Mac, Android, iOS'
+                ],
+                variants: [
+                    { name: 'Teams Shared 7 Hari', price: 8000 },
+                    { name: 'Teams Shared 35 Hari (Garansi 30 Hari)', price: 15000 }
+                ]
+            },
+            {
+                id: 'canva-pro',
+                name: 'Canva Pro Lifetime',
+                category: 'app',
+                icon: 'fa-palette',
+                strikePrice: '30.000',
+                basePrice: '5.000',
+                soldCount: '38.2k',
+                rating: '4.9',
+                desc: 'Upgrade akun Canva milikmu sendiri menjadi Canva Pro Team. Akses jutaan elemen, foto premium, Magic Studio AI.',
+                benefits: [
+                    'Desain Pakai Email Pribadi Kamu',
+                    'Access 100M+ Elemen & Template Premium',
+                    'Magic Switch & Magic Eraser AI Active'
+                ],
+                variants: [
+                    { name: 'Canva Pro Invite 1 Bulan', price: 5000 },
+                    { name: 'Canva Pro Invite 1 Tahun', price: 15000 }
+                ]
+            },
+            {
+                id: 'nokos-wa',
+                name: 'Nokos WhatsApp',
+                category: 'nokos',
+                icon: 'fa-comments',
+                strikePrice: '10.000',
+                basePrice: '3.000',
+                soldCount: '42.9k',
+                rating: '4.9',
+                desc: 'Nomor Kosong WhatsApp siap verifikasi OTP. Tersedia negara Indonesia (+62) dan Luar Negeri.',
+                benefits: [
+                    'OTP Masuk Cepat Real-time',
+                    'Garansi Re-OTP Jika Kode Gagal',
+                    'Cocok Untuk Akun Sekunder / Bisnis'
+                ],
+                variants: [
+                    { name: 'Nokos WA Indo (+62) Garansi OTP', price: 5000 },
+                    { name: 'Nokos WA Luar Negeri (+1 USA)', price: 3000 }
+                ]
+            }
+        ];
+
+        let currentTab = 'store';
+        let selectedProduct = null;
+        let selectedVariantIndex = 0;
+
+        // TABS SWITCHING LOGIC (STORE VS MOD)
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+
+            const navStoreBtn = document.getElementById('navStoreBtn');
+            const navModBtn = document.getElementById('navModBtn');
+
+            if (tab === 'store') {
+                document.getElementById('tabStore').classList.remove('hidden');
+                document.getElementById('headerSubtitle').innerText = 'Katalog Produk & Aplikasi Premium';
+                document.getElementById('bannerBadge').innerText = 'Official Store';
+                document.getElementById('bannerTitle').innerText = 'Produk Digital & Nokos';
+                document.getElementById('bannerDesc').innerText = 'Proses Cepat • Garansi Full • 24/7';
+                document.getElementById('bannerIcon').innerText = '⚡';
+
+                navStoreBtn.className = 'nav-btn flex flex-col items-center text-blue-600 dark:text-blue-400';
+                navModBtn.className = 'nav-btn flex flex-col items-center text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition';
+            } else if (tab === 'mod') {
+                document.getElementById('tabMod').classList.remove('hidden');
+                document.getElementById('headerSubtitle').innerText = 'Pusat Download APK Mod Gratis';
+                document.getElementById('bannerBadge').innerText = 'Morez Mod Center';
+                document.getElementById('bannerTitle').innerText = 'Download APK Premium';
+                document.getElementById('bannerDesc').innerText = 'No Watermark • VIP Unlocked • Fast Server';
+                document.getElementById('bannerIcon').innerText = '🚀';
+
+                navModBtn.className = 'nav-btn flex flex-col items-center text-purple-600 dark:text-purple-400';
+                navStoreBtn.className = 'nav-btn flex flex-col items-center text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition';
+            }
+
+            scrollToTop();
+        }
+
+        // RENDER APLIKASI MOD KE LIST FULL VIEW
+        function renderModApps(items) {
+            const container = document.getElementById('modListContainer');
+            container.innerHTML = '';
+            document.getElementById('modCount').innerText = `${items.length} Aplikasi Ready`;
+
+            if (items.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-10 bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-100 dark:border-slate-700">
+                        <i class="fas fa-box-open text-3xl text-slate-300 dark:text-slate-600 mb-2"></i>
+                        <p class="text-xs font-bold dark:text-slate-300">Aplikasi Mod tidak ditemukan</p>
+                        <p class="text-[10px] text-slate-400">Coba cari dengan kata kunci lain</p>
+                    </div>
+                `;
+                return;
+            }
+
+            items.forEach(app => {
+                container.innerHTML += `
+                    <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-3.5 border border-slate-100 dark:border-slate-700/80 shadow-sm hover:shadow-md transition flex flex-col space-y-2.5">
+                        <div class="flex items-start justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br ${app.iconBg} text-white flex items-center justify-center text-xl shadow-md shrink-0">
+                                    <i class="fas ${app.icon}"></i>
+                                </div>
+                                <div>
+                                    <div class="flex items-center space-x-1.5">
+                                        <h4 class="font-bold text-xs dark:text-white line-clamp-1">${app.title}</h4>
+                                        <span class="${app.badgeBg} text-white text-[8px] font-extrabold px-1.5 py-0.5 rounded-md uppercase tracking-wider">${app.badge}</span>
+                                    </div>
+                                    <p class="text-[10px] text-slate-400 mt-0.5">Versi: <span class="text-slate-600 dark:text-slate-300 font-medium">${app.version}</span> • ${app.size}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed bg-slate-50 dark:bg-slate-800 p-2 rounded-xl border border-slate-100 dark:border-slate-700">
+                            ${app.desc}
+                        </p>
+
+                        <div class="flex items-center justify-between pt-1">
+                            <span class="text-[9px] text-slate-400">
+                                <i class="fas fa-clock mr-1"></i>Update: ${app.updated}
+                            </span>
+                            <a href="${app.url}" target="_blank" rel="noopener noreferrer" class="bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold px-4 py-2 rounded-xl shadow-md shadow-purple-500/20 transition flex items-center space-x-1.5">
+                                <i class="fas fa-download text-xs"></i>
+                                <span>Unduh APK</span>
+                            </a>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // FILTER CATEGORY MOD
+        function filterModCategory(cat) {
+            document.querySelectorAll('.mod-cat-btn').forEach(btn => {
+                btn.classList.remove('bg-purple-600', 'text-white');
+                btn.classList.add('bg-white', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
+            });
+            event.target.classList.remove('bg-white', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
+            event.target.classList.add('bg-purple-600', 'text-white');
+
+            if (cat === 'all') {
+                renderModApps(modApps);
+            } else {
+                renderModApps(modApps.filter(m => m.category === cat));
+            }
+        }
+
+        // FILTER SEARCH MOD
+        function filterModApps() {
+            const query = document.getElementById('searchModInput').value.toLowerCase();
+            const filtered = modApps.filter(m => m.title.toLowerCase().includes(query) || m.desc.toLowerCase().includes(query));
+            renderModApps(filtered);
+        }
+
+        // RENDER PRODUK STORE
+        function renderProducts(items) {
+    const grid = document.getElementById('productGrid');
+    grid.innerHTML = '';
+
+    items.forEach(p => {
+        grid.innerHTML += `
+            <div onclick="openModal('${p.id}')" class="bg-white dark:bg-slate-800 rounded-2xl p-3 border border-slate-100 dark:border-slate-700/80 shadow-sm hover:shadow-md transition cursor-pointer flex flex-col justify-between">
+                <div>
+                    <!-- CONTAINER GAMBAR FOTO PRODUK -->
+                    <div class="h-24 w-full rounded-xl overflow-hidden relative mb-2.5 bg-slate-100 dark:bg-slate-700 flex items-center justify-center">
+                        <img src="${p.image}" alt="${p.name}" referrerpolicy="no-referrer" class="w-full h-full object-cover">
+                        <span class="absolute top-1.5 right-1.5 bg-black/50 backdrop-blur-md text-[9px] font-bold px-1.5 py-0.5 rounded-full text-white">⭐ ${p.rating}</span>
+                    </div>
+
+                    <h4 class="font-bold text-xs text-slate-800 dark:text-slate-100 line-clamp-1">${p.name}</h4>
+                    <p class="text-[10px] text-slate-400 mb-1.5">${p.soldCount} Terjual</p>
+                </div>
+
+                <div>
+                    <div class="flex items-baseline space-x-1 mb-2">
+                        <span class="text-xs font-extrabold text-blue-600 dark:text-blue-400">Rp ${p.basePrice}</span>
+                        <span class="text-[9px] text-slate-400 line-through">Rp ${p.strikePrice}</span>
+                    </div>
+                    <button class="w-full bg-blue-50 dark:bg-slate-700/60 hover:bg-blue-600 hover:text-white text-blue-600 dark:text-blue-300 text-[11px] font-bold py-1.5 rounded-xl transition flex items-center justify-center space-x-1">
+                        <span>Detail</span>
+                        <i class="fas fa-arrow-right text-[9px]"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+    });
+}
+
+        function filterCategory(cat) {
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white');
+                btn.classList.add('bg-white', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
+            });
+            event.target.classList.remove('bg-white', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
+            event.target.classList.add('bg-blue-600', 'text-white');
+
+            if (cat === 'all') {
+                renderProducts(products);
+            } else {
+                renderProducts(products.filter(p => p.category === cat));
+            }
+        }
+
+        function filterProducts() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = products.filter(p => p.name.toLowerCase().includes(query) || p.desc.toLowerCase().includes(query));
+            renderProducts(filtered);
+        }
+
+        // MODAL PRODUCT DETAIL
+        function openModal(id) {
+            selectedProduct = products.find(p => p.id === id);
+            selectedVariantIndex = 0;
+
+            document.getElementById('modalTitle').innerText = selectedProduct.name;
+            document.getElementById('modalCategory').innerText = selectedProduct.category.toUpperCase();
+            document.getElementById('modalIcon').innerHTML = `<i class="fas ${selectedProduct.icon}"></i>`;
+            document.getElementById('modalDesc').innerText = selectedProduct.desc;
+
+            const benefitContainer = document.getElementById('modalBenefits');
+            benefitContainer.innerHTML = '';
+            selectedProduct.benefits.forEach(b => {
+                benefitContainer.innerHTML += `<li class="flex items-center"><i class="fas fa-check text-emerald-500 mr-1.5 text-[10px]"></i> ${b}</li>`;
+            });
+
+            const variantContainer = document.getElementById('modalVariants');
+            variantContainer.innerHTML = '';
+            selectedProduct.variants.forEach((v, index) => {
+                const isChecked = index === 0 ? 'checked' : '';
+                variantContainer.innerHTML += `
+                    <label onclick="selectVariant(${index})" class="flex items-center justify-between p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 cursor-pointer">
+                        <div class="flex items-center space-x-2">
+                            <input type="radio" name="variant" ${isChecked} class="text-blue-600 focus:ring-0">
+                            <span class="text-xs font-semibold text-slate-700 dark:text-slate-200">${v.name}</span>
+                        </div>
+                        <span class="text-xs font-bold text-blue-600 dark:text-blue-400">Rp ${v.price.toLocaleString('id-ID')}</span>
+                    </label>
+                `;
+            });
+
+            updateSelectedPrice();
+            document.getElementById('productModal').classList.remove('hidden');
+        }
+
+        function selectVariant(index) {
+            selectedVariantIndex = index;
+            updateSelectedPrice();
+        }
+
+        function updateSelectedPrice() {
+            const price = selectedProduct.variants[selectedVariantIndex].price;
+            document.getElementById('modalSelectedPrice').innerText = `Rp ${price.toLocaleString('id-ID')}`;
+        }
+
+        function closeModal() {
+            document.getElementById('productModal').classList.add('hidden');
+        }
+
+        function buyViaWhatsApp() {
+            const adminNumber = '6281234567890'; // GANTI NOMOR WA KAMU DISINI
+            const variant = selectedProduct.variants[selectedVariantIndex];
+            const message = `Halo Admin Morez Store! Saya ingin membeli:\n\n📌 *Produk*: ${selectedProduct.name}\n🏷️ *Varian*: ${variant.name}\n💰 *Harga*: Rp ${variant.price.toLocaleString('id-ID')}\n\nMohon instruksi pembayarannya ya!`;
+            window.open(`https://wa.me/${adminNumber}?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        // PAGES MODAL MENU
+        function showPagesModal() { document.getElementById('pagesModal').classList.remove('hidden'); }
+        function closePagesModal() { document.getElementById('pagesModal').classList.add('hidden'); }
+
+        function openPageMenu(menu) {
+            closePagesModal();
+            document.getElementById('loadingOverlay').classList.remove('hidden');
+
+            setTimeout(() => {
+                document.getElementById('loadingOverlay').classList.add('hidden');
+                if (menu === 'preset') {
+                    window.open('https://whatsapp.com/channel/0029VaXXXXX', '_blank');
+                } else if (menu === 'store') {
+                    switchTab('store');
+                } else if (menu === 'mod') {
+                    switchTab('mod');
+                }
+            }, 600);
+        }
+
+        function focusActiveSearch() {
+            if (currentTab === 'store') {
+                document.getElementById('searchInput').focus();
+            } else {
+                document.getElementById('searchModInput').focus();
+            }
+        }
+
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+            const darkIcon = document.getElementById('darkIcon');
+            if (document.documentElement.classList.contains('dark')) {
+                darkIcon.className = 'fas fa-sun';
+            } else {
+                darkIcon.className = 'fas fa-moon';
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // INIT
+        renderProducts(products);
+        renderModApps(modApps);
+    </script>
+</body>
+</html>
